@@ -4,8 +4,8 @@ const Tweet = require('./Tweet');
 module.exports = (sequelize, DataTypes, Deferrable) => {
     let User = sequelize.define('User', {
         id: {
-            type: DataTypes.UUID,
-            defaultValue: DataTypes.UUIDV4,
+            type: DataTypes.INTEGER,
+            autoIncrement: true,
             allowNull: false,
             primaryKey: true
         },

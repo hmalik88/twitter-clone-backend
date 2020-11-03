@@ -6,13 +6,13 @@ const Tweet = require("./Tweet");
 module.exports = (sequelize, DataTypes, Deferrable) => {
     let Like = sequelize.define('Like', {
         id: {
-            type: DataTypes.UUID,
-            defaultValue: DataTypes.UUIDV4,
+            type: DataTypes.INTEGER,
+            autoIncrement: true,
             allowNull: false,
             primaryKey: true
         },
         tweet_id: {
-            type: DataTypes.UUID,
+            type: DataTypes.INTEGER,
             allowNull: false,
             references: {
                 model: Tweet,
@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes, Deferrable) => {
             }
         },
         user_id: {
-            type: DataTypes.UUID,
+            type: DataTypes.INTEGER,
             allowNull: false,
             references: {
                 model: User,
