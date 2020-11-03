@@ -12,7 +12,6 @@ return models.sequelize.sync().then(res => {
     server.on('listening', onListening);
 })
 
-
 // event listener for HTTP server error events
 
 function onError(error) {
