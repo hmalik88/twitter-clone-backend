@@ -1,6 +1,7 @@
 'use strict';
 
 const User = require("./User");
+const Like = require("./Like");
 
 module.exports = (sequelize, DataTypes, Deferrable) => {
     let Tweet = sequelize.define('Tweet', {
@@ -33,5 +34,6 @@ module.exports = (sequelize, DataTypes, Deferrable) => {
         }
     })
     Tweet.belongsTo(User);
+    Tweet.hasMany(Like);
     return Tweet;
 }
