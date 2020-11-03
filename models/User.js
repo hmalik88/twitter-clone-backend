@@ -1,5 +1,7 @@
 'use strict';
-module.exports = (sequelize, DataTypes) => {
+const Tweet = require('./Tweet');
+
+module.exports = (sequelize, DataTypes, Deferrable) => {
     let User = sequelize.define('User', {
         id: {
             type: DataTypes.UUID,
@@ -35,5 +37,6 @@ module.exports = (sequelize, DataTypes) => {
             unique: true
         }
     })
+    User.hasMany(Tweet);
     return User;
 }
