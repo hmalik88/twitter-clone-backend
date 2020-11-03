@@ -1,10 +1,16 @@
 const http = require('http');
+const models = require('./models');
 const app = require('./app');
 const port = '3000';
 app.set('port', port);
 const server = http.createServer(app);
 
 // sync models here
+return models.sequelize.sync().then(res => {
+    server.listen(port);
+    server.on('error', onError);
+    server.on('listening', onListening);
+})
 
 
 // event listener for HTTP server error events
