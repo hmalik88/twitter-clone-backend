@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes, Deferrable) => {
             primaryKey: true
         },
         user_id: {
-            type: DataTypes.UUID,
+            type: DataTypes.INTEGER,
             allowNull: false,
             references: {
                 model: User,
@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes, Deferrable) => {
             }
         },
         follower_id: {
-            type: DataTypes.UUID,
+            type: DataTypes.INTEGER,
             allowNull: false,
             references: {
                 model: User,
