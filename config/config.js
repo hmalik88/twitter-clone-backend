@@ -1,10 +1,11 @@
-{
+module.exports = {
   "development": {
-    "username": "root",
-    "password": null,
-    "database": "database_development",
+    "username": "backend-twitter-user",
+    "password": '123.456',
+    "database": "twitter-clone-backend",
     "host": "127.0.0.1",
-    "dialect": "mysql"
+    "dialect": "postgres",
+    "port": 5432
   },
   "test": {
     "username": "root",
