@@ -1,8 +1,5 @@
 'use strict';
 
-const User = require("./User");
-const Tweet = require("./Tweet");
-
 module.exports = (sequelize, DataTypes, Deferrable) => {
     let Like = sequelize.define('Like', {
         id: {
@@ -15,7 +12,7 @@ module.exports = (sequelize, DataTypes, Deferrable) => {
             type: DataTypes.INTEGER,
             allowNull: false,
             references: {
-                model: Tweet,
+                model: 'Tweets',
                 key: 'id',
                 deferrable: Deferrable.INITIALLY_IMMEDIATE
             }
@@ -24,12 +21,11 @@ module.exports = (sequelize, DataTypes, Deferrable) => {
             type: DataTypes.INTEGER,
             allowNull: false,
             references: {
-                model: User,
+                model: 'Users',
                 key: 'id',
                 deferrable: Deferrable.INITIALLY_IMMEDIATE
             }
         }
     })
-    Like.belongsTo(Tweet);
     return Like;
 }

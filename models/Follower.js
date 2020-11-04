@@ -1,7 +1,5 @@
 'use strict';
 
-const User = require("./User");
-
 module.exports = (sequelize, DataTypes, Deferrable) => {
     let Follower = sequelize.define('Follower', {
         id: {
@@ -14,7 +12,7 @@ module.exports = (sequelize, DataTypes, Deferrable) => {
             type: DataTypes.INTEGER,
             allowNull: false,
             references: {
-                model: User,
+                model: 'Users',
                 key: 'id',
                 deferrable: Deferrable.INITIALLY_IMMEDIATE
             }
@@ -23,7 +21,7 @@ module.exports = (sequelize, DataTypes, Deferrable) => {
             type: DataTypes.INTEGER,
             allowNull: false,
             references: {
-                model: User,
+                model: 'Users',
                 key: 'id',
                 deferrable: Deferrable.INITIALLY_IMMEDIATE
             }

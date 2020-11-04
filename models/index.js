@@ -34,4 +34,10 @@ Object.keys(db).forEach(modelName => {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
+db.User.hasMany(db.Tweet, {foreignKey: 'user_id'});
+db.Tweet.belongsTo(db.User, {foreignKey: 'user_id'});
+db.Tweet.hasMany(db.Like, {foreignKey: 'tweet_id'});
+db.Like.belongsTo(db.Tweet, {foreignKey: 'tweet_id'});
+db.User.belongsToMany(db.User, {as: 'followers', through: db.Follower, foreignKey: 'user_id', otherKey: 'follower_id'});
+
 module.exports = db;
