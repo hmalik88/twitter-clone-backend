@@ -29,14 +29,15 @@ exports.create_tweet = async function(req, res, next) {
 // then we want to fetch all he tweets of the users that our user is following
 
 exports.show_timeline = async function(req, res, next) {
-    let errors = await validateToken(errors, req);
+    let errors = await validateToken({}, req);
     if (!isEmpty(errors)) next(errors);
     else {
-        const token = req.header('x-authenticantion-token');
+        const token = req.header('x-authentication-token');
         const userId = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET).id;
         const userTweets = await models.Tweet.findAll({where: {user_id: userId}});
-        const friendIds = await models.Follower.findAll({where: {follower_id: userId}});
-        const friendTweets = await models.Tweet.findAll({where: {user_id: friendIds}});
+        const userFriends = await models.Follower.findAll({where: {follower_id: userId}});
+        const userIds = userFriends.map(friend => friend.user_id);
+        const friendTweets = await models.Tweet.findAll({where: {user_id: userIds}});
         const timeline = [...userTweets, ...friendTweets];
         res.status(200).send({timeline: timeline});
     }
@@ -46,10 +47,10 @@ exports.show_timeline = async function(req, res, next) {
 // grab all the tweets where there is a true property of isTweeth
 
 exports.show_tweeths = async function(req, res, next) {
-    let errors = await validateToken(errors, req);
+    let errors = await validateToken({}, req);
     if (!isEmpty(errors)) next(errors);
     else {
-        const token = req.headers('x-authentication-token');
+        const token = req.header('x-authentication-token');
         const userId = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET).id;
         const userTweeths = await models.Tweet.findAll({where: {user_id: userId, isTweeth: true}});
         res.status(200).send({tweeths: userTweeths});
