@@ -1,10 +1,10 @@
-const User = require('../models/User');
+const models = require('../models');
 const validator = require('validator');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { isEmpty } = require('lodash');
 const Web3 = require('web3');
-const web3 = new Web3.providers.HttpProvider('https://rinkeby.infura.io/v3/01793541d74c433696d6b46058298237');
+const web3 = new Web3(new Web3.providers.HttpProvider('https://rinkeby.infura.io/v3/01793541d74c433696d6b46058298237'));
 
 
 /*
@@ -43,9 +43,9 @@ we want a unique username for our account.
 
 exports.validateSignup = async function(errors, req) {
     await validateCreateUserFields(errors, req);
-    const emailFound = await User.findOne({where: {email: req.body.email}});
-    const userNameFound = await User.findOne({where: {userName: req.body.userName}});
-    const ethAddFound = await User.findOne({where: {ethAddress: req.body.ethAddress}});
+    const emailFound = await models.User.findOne({where: {email: req.body.email}});
+    const userNameFound = await models.User.findOne({where: {userName: req.body.userName}});
+    const ethAddFound = await models.User.findOne({where: {ethAddress: req.body.ethAddress}});
     if (emailFound || userNameFound || ethAddFound) {
         errors["status"] = 400;
         errors["messages"] = [];
@@ -57,7 +57,7 @@ exports.validateSignup = async function(errors, req) {
 }
 
 exports.validateLogin = async function(errors, req) {
-    const user = await User.findOne({where: {email: req.body.email}});
+    const user = await models.User.findOne({where: {email: req.body.email}});
     if (user == null) {
         errors["status"] = 400;
         errors["message"] = "No such user found for this email. Please use a valid email.";
@@ -81,7 +81,7 @@ exports.validateToken = async function(errors, req) {
         }
     });
     if (isEmpty(errors)) {
-        const user = await User.findOne({where: {id: userId}});
+        const user = await models.User.findOne({where: {id: userId}});
         if (user == null) {
             errors["status"] = 401;
             errors["message"] = "You do not have access to this resource."

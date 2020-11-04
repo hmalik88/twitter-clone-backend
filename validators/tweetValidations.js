@@ -1,4 +1,3 @@
-const Tweet = require('../models/Tweet');
 
 // in the future we can add in checks for profane language
 // right now we're just validating for tweet length
