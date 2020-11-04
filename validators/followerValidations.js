@@ -7,18 +7,13 @@ const jwt = require('jsonwebtoken');
 // make sure the follower_id matches up with the id in the JWT
 
 exports.validateFollowing = async function(errors, req) {
-    if (req.params.id == null || req.body.follower_id == null) {
+    if (req.params.id == null) {
         errors["status"] = 400;
-        errors["message"] = "user_id and follower_id fields must both be present"
+        errors["message"] = "id params must be present."
         return errors;
     }
     const token = req.headers('x-authentication-token');
     const userId = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET).id;
-    if (userId !== req.body.follower_id) {
-        errors["status"] = 401;
-        errors["message"] = "You do not have access to this resource."
-        return errors;
-    }
     const users = await User.findAll({where: {id: [userId, req.params.id]}});
     if (users == null || users.length !== 2) {
         errors["status"] = 400;
