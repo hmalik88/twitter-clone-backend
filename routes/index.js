@@ -11,7 +11,7 @@ router.post('/login');
 // follow routes
 
 router.post('/follow/:id');
-router.post('/unfollow/:id');
+router.delete('/follow/:id');
 
 
 //  tweet routes
@@ -23,6 +23,6 @@ router.get('/users/:id/tweeths');
 // like routes
 
 router.post('/likes');
-router.post('/likes/:id');
+router.delete('/likes/:id');
 
 module.exports = router;
