@@ -4,15 +4,16 @@ const createError = require('http-errors');
 const { create } = require('lodash');
 const logger = require('morgan');
 const app = express();
+const indexRouter = require('./routes/index');
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // add routes here
+app.use('/', indexRouter);
 
 //error handlers
-
 app.use(function (req, res, next) {
     next(createError(404));
 })
