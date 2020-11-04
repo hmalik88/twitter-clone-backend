@@ -2,7 +2,6 @@ const Follower = require('../models/Follower');
 const { validateFollowing } = require('../validators/followerValidations');
 const { validateToken } = require('../validators/userValidations');
 const { isEmpty } = require('lodash');
-const jwt = require('jsonwebtoken');
 
 // validate the token first then validate that there's a user_id and follower_id
 
