@@ -9,6 +9,7 @@ const jwt = require('jsonwebtoken');
 // then we want to grab the user's tweets through the association we setup
 exports.create_tweet = async function(req, res, next) {
     let errors = await validateTweet({}, req);
+    if (!isEmpty(errors)) next(errors);
     errors = await validateToken(errors, req);
     if (!isEmpty(errors)) next(errors);
     else {
