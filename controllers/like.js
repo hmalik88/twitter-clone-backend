@@ -1,4 +1,4 @@
-const Like = require('../models/Like');
+const models = require('../models');
 const { validateToken } = require('../validators/userValidations');
 const { validateLiking } = require('../validators/likeValidations');
 const { isEmpty } = require('lodash');
@@ -12,9 +12,9 @@ exports.create_like = async function(req, res, next) {
     errors = await validateLiking(errors, req);
     if (!isEmpty(errors)) next(errors);
     else {
-        const token = req.headers('x-authentication-token');
+        const token = req.header('x-authentication-token');
         const userId = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET).id;
-        const newLike = await Like.create({
+        const newLike = await models.Like.create({
             user_id: userId,
             tweet_id: req.body.tweetId
         });
@@ -29,9 +29,9 @@ exports.remove_like = async function(req, res, next) {
     errors = await validateLiking(errors, req);
     if (!isEmpty(errors)) next(errors);
     else {
-        const token = req.headers('x-authentication-token');
+        const token = req.header('x-authentication-token');
         const userId = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET).id;
-        const deletedLike = await Like.destroy({
+        const deletedLike = await models.Like.destroy({
             where: {
                 user_id: userId,
                 tweet_id: req.body.tweetId

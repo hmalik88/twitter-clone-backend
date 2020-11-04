@@ -2,17 +2,17 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { validateSignup, validateLogin } = require('../validators/userValidations');
 const { isEmpty } = require('lodash');
-const User = require('../models/User');
+const models = require('../models');
 
 const generateHash = function(password) {
-    return bcrypt.hashSynce(password, bcrypt.genSaltSync(8), null);
+    return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
 }
 
 exports.signup = async function(req, res, next) {
     const errors = await validateSignup({}, req);
     if (!isEmpty(errors)) next(errors);
     else {
-        const newUser = await User.create({
+        const newUser = await models.User.create({
             email: req.body.email,
             password: generateHash(req.body.password),
             firstName: req.body.firstName,

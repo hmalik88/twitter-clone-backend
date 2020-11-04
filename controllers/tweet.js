@@ -1,5 +1,4 @@
-const Tweet = require('../models/Tweet');
-const Follower = require('../models/Follower');
+const models = require('../models');
 const { validateTweet } = require('../validators/tweetValidations');
 const { isEmpty } = require('lodash');
 const { validateToken } = require('../validators/userValidations');
@@ -13,9 +12,9 @@ exports.create_tweet = async function(req, res, next) {
     errors = await validateToken(errors, req);
     if (!isEmpty(errors)) next(errors);
     else {
-        const token = req.headers('x-authentication-token');
+        const token = req.header('x-authentication-token');
         const userId = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET).id;
-        const newTweet = Tweet.create({
+        const newTweet = await models.Tweet.create({
             content: req.body.content,
             user_id: userId,
             isTweeth: req.body.isTweeth,
@@ -33,11 +32,11 @@ exports.show_timeline = async function(req, res, next) {
     let errors = await validateToken(errors, req);
     if (!isEmpty(errors)) next(errors);
     else {
-        const token = req.headers('x-authenticantion-token');
+        const token = req.header('x-authenticantion-token');
         const userId = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET).id;
-        const userTweets = await Tweet.findAll({where: {user_id: userId}});
-        const friendIds = await Follower.findAll({where: {follower_id: userId}});
-        const friendTweets = await Tweet.findAll({where: {user_id: friendIds}});
+        const userTweets = await models.Tweet.findAll({where: {user_id: userId}});
+        const friendIds = await models.Follower.findAll({where: {follower_id: userId}});
+        const friendTweets = await models.Tweet.findAll({where: {user_id: friendIds}});
         const timeline = [...userTweets, ...friendTweets];
         res.status(200).send({timeline: timeline});
     }
@@ -52,7 +51,7 @@ exports.show_tweeths = async function(req, res, next) {
     else {
         const token = req.headers('x-authentication-token');
         const userId = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET).id;
-        const userTweeths = await Tweet.findAll({where: {user_id: userId, isTweeth: true}});
+        const userTweeths = await models.Tweet.findAll({where: {user_id: userId, isTweeth: true}});
         res.status(200).send({tweeths: userTweeths});
     }
 }
