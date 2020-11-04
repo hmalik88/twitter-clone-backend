@@ -6,16 +6,23 @@ const router = express.Router();
 
 router.post('/signup');
 router.post('/login');
+
+
+// follow routes
+
 router.post('/follow/:id');
 router.post('/unfollow/:id');
 
 
-//  tweet related routes
+//  tweet routes
 
 router.post('/tweets');
-router.post('/likes');
 router.get('/users/:id/timeline');
 router.get('/users/:id/tweeths');
 
+// like routes
+
+router.post('/likes');
+router.post('/likes/:id');
 
 module.exports = router;
