@@ -33,7 +33,7 @@ module.exports = {
                 type: Sequelize.STRING
             },
             ethAddress: {
-                allowNull: true,
+                allowNull: false,
                 type: Sequelize.STRING
             }
         });

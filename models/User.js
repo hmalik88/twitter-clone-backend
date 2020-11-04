@@ -34,7 +34,7 @@ module.exports = (sequelize, DataTypes, Deferrable) => {
         },
         ethAddress: {
             type: DataTypes.STRING,
-            allowNull: true,
+            allowNull: false,
             unique: true
         }
     })
