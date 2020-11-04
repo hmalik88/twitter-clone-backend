@@ -35,6 +35,10 @@ module.exports = {
             ethAddress: {
                 allowNull: false,
                 type: Sequelize.STRING
+            },
+            userName: {
+                allowNull: false,
+                type: Sequelize.STRING
             }
         });
     },
