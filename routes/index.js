@@ -10,19 +10,22 @@ const follower = require('../controllers/follower');
 
 router.post('/signup', user.signup);
 router.post('/login', user.login);
+router.get('/users/:username', user.show_user)
 
 
 // follow routes
 
-router.post('/follow/:id', follower.create_following);
-router.delete('/follow/:id', follower.delete_following);
+router.post('/follow/:username', follower.create_following);
+router.delete('/follow/:username', follower.delete_following);
 
 
 //  tweet routes
 
 router.post('/tweets', tweet.create_tweet);
-router.get('/users/:id/timeline', tweet.show_timeline);
-router.get('/users/:id/tweeths', tweet.show_tweeths);
+router.get('/timeline', tweet.show_timeline);
+router.get('/users/:username/tweeths', tweet.show_tweeths);
+router.get('/users/:username/tweets', tweet.show_tweets);
+router.get('/users/:username/likes', tweet.show_likes);
 
 // like routes
 

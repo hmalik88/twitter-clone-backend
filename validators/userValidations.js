@@ -51,7 +51,7 @@ exports.validateSignup = async function(errors, req) {
         errors["messages"] = [];
         if (emailFound) errors["messages"].push("Email is already in use. Please login or use another email to signup.");
         if (userNameFound) errors["messages"].push("Username is already in use. Please use another username to signup.");
-        if (ethAddFound) errors["messages"].push("Ethereum address is already in use. Please use another address to signup.");
+        if (ethAddFound) errors["messages"].push("Ethereum address is already in use. Please use another ethereum address to signup.");
     }
     return errors;
 }
@@ -60,7 +60,7 @@ exports.validateLogin = async function(errors, req) {
     const user = await models.User.findOne({where: {email: req.body.email}});
     if (user == null) {
         errors["status"] = 400;
-        errors["message"] = "No such user found for this email. Please use a valid email.";
+        errors["message"] = "Please use a valid email.";
     } else {
         if (!bcrypt.compareSync(req.body.password, user.password)) {
             errors["status"] = 401;
@@ -89,3 +89,4 @@ exports.validateToken = async function(errors, req) {
     }
     return errors;
 }
+

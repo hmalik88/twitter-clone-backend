@@ -5,7 +5,10 @@ const { create } = require('lodash');
 const logger = require('morgan');
 const app = express();
 const indexRouter = require('./routes/index');
+const cors = require('cors');
 
+app.disable('etag');
+app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -19,7 +22,7 @@ app.use(function (req, res, next) {
 })
 
 app.use(function (err, req, res, next) {
-    res.status(err.status || 500).send({error: err.message});
+    res.status(err.status || 500).send({errors: err});
 })
 
 

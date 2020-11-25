@@ -14,7 +14,8 @@ exports.create_following = async function(req, res, next) {
     else {
         const token = req.header('x-authentication-token');
         const userId = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET).id;
-        const following = await models.Follower.create({user_id: req.params.id, follower_id: userId});
+        const followed = await models.User.findOne({where: {userName: req.params.username}});
+        const following = await models.Follower.create({user_id: followed.id, follower_id: userId});
         res.status(200).send({following: following});
     }
 }
@@ -27,9 +28,10 @@ exports.delete_following = async function(req, res, next) {
     else {
         const token = req.header('x-authentication-token');
         const userId = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET).id;
+        const followed = await models.User.findOne({where: {userName: req.params.username}});
         const deletedFollowing = await models.Follower.destroy({
             where: {
-                user_id: req.params.id,
+                user_id: followed.id,
                 follower_id: userId
             }
         });

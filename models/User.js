@@ -13,13 +13,9 @@ module.exports = (sequelize, DataTypes, Deferrable) => {
             allowNull: false,
             unique: true
         },
-        firstName: {
+        name: {
             type: DataTypes.STRING,
             allowNull: false
-        },
-        lastName: {
-            type: DataTypes.STRING,
-            allowNull: true
         },
         password: {
             type: DataTypes.STRING,
