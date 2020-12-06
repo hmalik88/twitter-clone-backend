@@ -10,7 +10,8 @@ const follower = require('../controllers/follower');
 
 router.post('/signup', user.signup);
 router.post('/login', user.login);
-router.get('/users/:username', user.show_user)
+router.get('/users/:username', user.show_user);
+router.get('/users', user.show_users);
 
 
 // follow routes

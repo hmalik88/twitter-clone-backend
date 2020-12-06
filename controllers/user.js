@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const { validateSignup, validateLogin, validateToken } = require('../validators/userValidations');
 const { isEmpty } = require('lodash');
 const models = require('../models');
+const { Op } = require('sequelize');
 
 const generateHash = function(password) {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
@@ -51,6 +52,27 @@ exports.show_user = async function (req, res, next) {
         userInfo['following'] = following.length;
         const isFollowed = !!followers.filter(follower => follower.follower_id == userId).length;
         userInfo['isFollowed'] = isFollowed;
+        res.status(200).send(userInfo);
+    }
+}
+
+exports.show_users = async function (req, res, next) {
+    const errors = await validateToken({}, req);
+    if (!isEmpty(errors)) next(errors);
+    else {
+        console.log(req.query.match);
+        const users = req.query.match ? 
+        await models.User.findAll({
+            where: {
+                userName: {
+                    [Op.like]: req.query.match + '%'
+                }
+            }
+        }) :
+        await models.User.findAll();
+        const userInfo = users.map(user => {
+            return {name: user.name, userName: user.userName}
+        });
         res.status(200).send(userInfo);
     }
 }
